@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v3
-      - name: npm install and build
+      - name: install nodejs
         uses: actions/setup-node@v3
         with:
           node-version: 13
