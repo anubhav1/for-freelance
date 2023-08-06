@@ -7,14 +7,25 @@ jobs:
   deploy_lambda1:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Check out code
+        uses: actions/checkout@v3
+      - name: npm install and build
+        uses: actions/setup-node@v3
         with:
           node-version: 13
-      - uses: aws-actions/configure-aws-credentials@v2
+      - name: npm install and build
+        run: |
+            npm ci
+            npm run build --if-present
+          env:
+            CI: true   
+      - name: Configure AWS credentials       
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - run: zip -j lambda1.zip ./lambda/test.js
-      - run: aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
+      - name: Zip the code     
+        run: zip -j lambda1.zip ./lambda/test.js
+      - name: Update the lambda  
+        run: aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
