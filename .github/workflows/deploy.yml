@@ -1,4 +1,4 @@
-name: Deploying multiple Lambdas
+name: Deploying Lambdas
 on:
   push:
     branches:
