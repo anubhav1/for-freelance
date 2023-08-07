@@ -5,6 +5,7 @@ on:
       - main
 jobs:
   deploy_lambda1:
+    name: deploying lambda1
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
