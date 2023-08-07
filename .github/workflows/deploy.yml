@@ -4,8 +4,8 @@ on:
     branches:
       - main
 jobs:
-  deploy_lambda1:
-    name: deploying lambda1
+  DeployDev:
+    name: deploying lambda1 on dev
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
@@ -31,3 +31,11 @@ jobs:
         run: zip -j lambda1.zip ./lambda/*
       - name: Update the lambda  
         run: aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
+  
+  DeployProd:
+    name: Deploy to Production 
+    needs: [DeployDev]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy
+        run: echo I am deploying!      
