@@ -30,7 +30,7 @@ jobs:
       - name: Zip the code     
         run: |
              cd lambda 
-             zip -r onlylambda.zip ./
+             zip -r lambda1.zip ./
       - name: Update the lambda  
         run: |
           cd lambda
