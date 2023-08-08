@@ -28,9 +28,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Zip the code     
-        run: zip -r lambda1.zip ./lambda/*
+        run: |
+             cd lambda 
+             zip -r onlylambda.zip ./
       - name: Update the lambda  
-        run: aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
+        run: |
+          cd lambda
+          aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
   
   DeployProd:
     name: Deploy to Production 
