@@ -1,30 +1,41 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: "db-instance-identifier-snapshot.cht3qw2hlkr0.us-east-1.rds.amazonaws.com",
-    user: "admin",
-    password: "Lumia640!",
-    database: "databasename",
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
 });
 
 exports.handler = async (event) => {
-  const sql = "CREATE TABLE MESSAGE (message VARCHAR(255))";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
+  try {
+    const data = await new Promise((resolve, reject) => {
+      connection.connect(function (err) {
+        if (err) {
+          reject(err);
+        }
+        connection.query('SELECT message FROM MESSAGE', function (err, result) {
+          if (err) {
+            console.log("Error->" + err);
+            reject(err);
+          }
+          console.log("result->" + result[0].message);
+          resolve(result);
+        });
+        
+      })
+    });
 
-  const sql2 = "INSERT INTO MESSAGE (message) VALUES (I am groot)";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
 
-  const sql3 = "SELECT message FROM MESSAGE";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(result);
-  });
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data)
+    }
 
-  return "Success"
+
+  } catch (err) {
+    return {
+      statusCode: 400,
+      body: err.message
+    }
+  }
 };
-
