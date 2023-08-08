@@ -12,6 +12,19 @@ exports.handler = async (event) => {
     if (err) throw err;
     console.log("Table created");
   });
-  return "Table Created"
+
+  const sql2 = "INSERT INTO MESSAGE (message) VALUES (I am groot)";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+
+  const sql3 = "SELECT message FROM MESSAGE";
+  connection.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log(result);
+  });
+
+  return "Success"
 };
 
