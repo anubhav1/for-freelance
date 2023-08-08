@@ -35,6 +35,7 @@ jobs:
         run: |
           cd lambda
           aws lambda update-function-code --function-name=freelanceLambda --zip-file=fileb://lambda1.zip
+          aws lambda update-function-code --function-name=vpclambda --zip-file=fileb://lambda1.zip
   
   DeployProd:
     name: Deploy to Production 
