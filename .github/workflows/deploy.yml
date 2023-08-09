@@ -40,7 +40,10 @@ jobs:
   DeployProd:
     name: Deploy to Production 
     needs: [DeployDev]
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: Deploy
-        run: echo I am deploying!      
+        run: |
+           echo I am deploying!   
+           echo ${{ secrets.PROD_SECRET }}   
